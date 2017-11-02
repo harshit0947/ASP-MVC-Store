@@ -1,0 +1,69 @@
+﻿@using Store.Models
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    List<Product> products = TempData.Peek("products") as List<Product>;
+    double? cartTotal = 0.0;
+}
+@if (products != null)
+{
+<h2>Cart</h2>
+
+<table class="table table-­bordered table-­hover">
+    <tr>
+        <th>
+            Product Name
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+
+        </th>
+    </tr>
+    <tbody>
+        @{
+            foreach (var item in products)
+            {
+                <tr>
+                    <td>
+                        @item.ProductName
+                    </td>
+                    <td>
+                        @item.QuantityInCart
+                    </td>
+                    <td>
+                       $ @item.Price
+                    </td>
+                    <td>
+                       $ @(item.QuantityInCart * item.Price)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveCart", new { id = item.Id })
+                    </td>
+                </tr>
+                cartTotal += (item.QuantityInCart * item.Price);
+            }
+            <tr>
+                <td>
+
+                </td>
+                <td></td>
+                <td></td>
+                <td>Total:<b>$ @cartTotal</b></td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+            }
+            else
+            {
+                <h3><font color="red">Cart is Empty</font></h3>
+            }

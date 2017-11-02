@@ -1,0 +1,69 @@
+﻿@using Store.Models
+@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Products</h2>
+
+
+<table class="table table-­bordered table-­hover" id="products">
+    <thead>
+        <tr>
+            <th>
+                Product Id
+            </th>
+            <th>
+                Product Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $("document").ready(function () {
+
+        $(".add-cart").click(function (event) {
+            alert("Added to the cart");
+            //bootbox.alert("Added to the cart");
+        });
+
+        $('#products').DataTable({
+            processing: "true",
+            serverSide: "true",
+            paging: "true",
+            ajax: {
+                url: "/api/products",
+                dataSrc: ""
+            },
+            columns: [
+                {
+                    data: "id"
+                },
+                {
+                    data: "productName",
+                    render: function (data, type, row) {
+                        return "<a href='/product/description/" + row.id + "'>" + data + "</a>";
+                    }
+                },
+                {
+                    data: "price"
+                },
+                {
+                    render: function (data, type, row) {
+                        return "<a class='btn btn-primary btn-sm add-cart' href='/product/addcart/" + row.id + "'> Add to Cart </a>";
+                    }
+                }
+            ]
+        });
+    });
+</script>
